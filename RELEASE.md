@@ -15,6 +15,9 @@ This version of the RGB LED library was validated for compatibility with the fol
 
 ### More information
 
+* [API Reference Guide](https://cypresssemiconductorco.github.io/rgb-led/html/modules.html)
+* [Cypress Semiconductor](http://www.cypress.com)
+* [Cypress Semiconductor GitHub](https://github.com/cypresssemiconductorco)
 * [ModusToolbox](https://www.cypress.com/products/modustoolbox-software-environment)
 * [PSoC 6 Code Examples using ModusToolbox IDE](https://github.com/cypresssemiconductorco/Code-Examples-for-ModusToolbox-Software)
 * [PSoC 6 Middleware](https://github.com/cypresssemiconductorco/psoc6-middleware)
