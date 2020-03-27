@@ -6,6 +6,7 @@ var searchData=
   ['cy_5frgb_5fled_5fcolor_5fblue',['CY_RGB_LED_COLOR_BLUE',['../group__group__board__libs.html#ga41896043db59135bf1d06c95a3eb5682',1,'cy_rgb_led.h']]],
   ['cy_5frgb_5fled_5fcolor_5fcyan',['CY_RGB_LED_COLOR_CYAN',['../group__group__board__libs.html#ga2f9fac1c2be3b7f60fb5a8764a784ebb',1,'cy_rgb_led.h']]],
   ['cy_5frgb_5fled_5fcolor_5fgreen',['CY_RGB_LED_COLOR_GREEN',['../group__group__board__libs.html#gaaea47d08b07c56755b5dbdd68eece794',1,'cy_rgb_led.h']]],
+  ['cy_5frgb_5fled_5fcolor_5fmagenta',['CY_RGB_LED_COLOR_MAGENTA',['../group__group__board__libs.html#ga0276d078c1aaa97e0cfb5c79fefbfc11',1,'cy_rgb_led.h']]],
   ['cy_5frgb_5fled_5fcolor_5foff',['CY_RGB_LED_COLOR_OFF',['../group__group__board__libs.html#gadac8cb0f119f8ee977f2ca99b75b477b',1,'cy_rgb_led.h']]],
   ['cy_5frgb_5fled_5fcolor_5fpurple',['CY_RGB_LED_COLOR_PURPLE',['../group__group__board__libs.html#ga64e7dfc420f5fbd1df5f23c5efedf382',1,'cy_rgb_led.h']]],
   ['cy_5frgb_5fled_5fcolor_5fred',['CY_RGB_LED_COLOR_RED',['../group__group__board__libs.html#ga0ce09f23f6653114a8871e31fe47f319',1,'cy_rgb_led.h']]],

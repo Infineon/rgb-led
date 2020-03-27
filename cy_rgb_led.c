@@ -6,7 +6,7 @@
 *
 ********************************************************************************
 * \copyright
-* Copyright 2018-2019 Cypress Semiconductor Corporation
+* Copyright 2018-2020 Cypress Semiconductor Corporation
 * SPDX-License-Identifier: Apache-2.0
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -49,9 +49,9 @@ extern "C" {
 static cy_en_syspm_status_t cy_rgb_led_lp_readiness(cy_stc_syspm_callback_params_t *,  cy_en_syspm_callback_mode_t);
 
 /* TCPWM instances for RGB LED control */
-static cyhal_pwm_t pwm_red_obj = { .base = NULL };
-static cyhal_pwm_t pwm_green_obj = { .base = NULL };
-static cyhal_pwm_t pwm_blue_obj = { .base = NULL };
+static cyhal_pwm_t pwm_red_obj;
+static cyhal_pwm_t pwm_green_obj;
+static cyhal_pwm_t pwm_blue_obj;
 
 /* Variables used to track the LED state (ON/OFF, Color, Brightness) */
 static uint32_t led_color = CY_RGB_LED_COLOR_OFF;
@@ -95,17 +95,17 @@ static cy_rslt_t cy_rgb_led_register_lp_cb(void)
 
 /*
  * This is the handler function to ensure proper operation of RGB LED during
- * device power mode transition (Deep Sleep to Active and vice-versa). This 
+ * device power mode transition (Deep Sleep to Active and vice-versa). This
  * low power callback function is registered as part of \ref cy_rgb_led_init
  * function.
  */
 static cy_en_syspm_status_t cy_rgb_led_lp_readiness(cy_stc_syspm_callback_params_t * lp_param,  cy_en_syspm_callback_mode_t mode)
 {
     cy_en_syspm_status_t retVal;
-    
+
     /* Remove unused parameter warning */
     (void)lp_param;
-    
+
     if (mode == CY_SYSPM_CHECK_READY && rgb_led_state == CY_RGB_LED_OFF)
     {
         retVal = CY_SYSPM_SUCCESS;
@@ -125,13 +125,13 @@ static cy_en_syspm_status_t cy_rgb_led_lp_readiness(cy_stc_syspm_callback_params
  */
 cy_rslt_t cy_rgb_led_init(cyhal_gpio_t pin_red, cyhal_gpio_t pin_green, cyhal_gpio_t pin_blue, bool led_active_logic)
 {
-    cy_rslt_t result = CY_RSLT_SUCCESS;        
+    cy_rslt_t result = CY_RSLT_SUCCESS;
     cyhal_clock_divider_t clk_TCPWM1;
-    
+
     rgb_led_active_logic = led_active_logic;
 
     /* Clock divder for generating the TCPWM clock. Must be at least 1. */
-    uint32_t div = (cy_PeriClkFreqHz + CY_RGB_LED_TCPWM_CLK_DIVIDER - 1) / CY_RGB_LED_TCPWM_CLK_DIVIDER;
+    uint32_t div = (Cy_SysClk_ClkPeriGetFrequency() + CY_RGB_LED_TCPWM_CLK_DIVIDER - 1) / CY_RGB_LED_TCPWM_CLK_DIVIDER;
 
     /* Allocate and assign the clock for TCPWMs for RGB LED control */
     result = cyhal_hwmgr_allocate_clock(&clk_TCPWM1, CY_SYSCLK_DIV_16_BIT, true);
@@ -140,46 +140,35 @@ cy_rslt_t cy_rgb_led_init(cyhal_gpio_t pin_red, cyhal_gpio_t pin_green, cyhal_gp
         Cy_SysClk_PeriphSetDivider(clk_TCPWM1.div_type, clk_TCPWM1.div_num, div - 1);
         Cy_SysClk_PeriphEnableDivider(clk_TCPWM1.div_type, clk_TCPWM1.div_num);
 
-        /* Initialize PWM to control Red LED. If TCPWM instance is not available
-         * return failure, else success
-         */
+        /* Attempt to initialize PWM to control Red LED. */
         result = cyhal_pwm_init(&pwm_red_obj, pin_red, &clk_TCPWM1);
 
         if (result == CY_RSLT_SUCCESS)
         {
-            /* Initialize PWM to control Green LED. If TCPWM instance is not available
-             * return failure, else success
-             */
+            /* Attempt to initialize PWM to control Green LED. */
             result = cyhal_pwm_init(&pwm_green_obj, pin_green, &clk_TCPWM1);
 
             if (result == CY_RSLT_SUCCESS)
             {
-                /* Initialize PWM to control Blue LED. If TCPWM instance is not available
-                 * return failure, else success
-                 */
-                result = cyhal_pwm_init(&pwm_blue_obj, pin_blue, &clk_TCPWM1);                
+                /* Attempt to initialize PWM to control Blue LED. */
+                result = cyhal_pwm_init(&pwm_blue_obj, pin_blue, &clk_TCPWM1);
+
+                /* If the Blue LED could not be initialized free the Green LED */
+                if (result != CY_RSLT_SUCCESS)
+                {
+                    cyhal_pwm_free(&pwm_green_obj);
+                }
             }
-        }
-        if (result != CY_RSLT_SUCCESS)
-        {
-            /* If any of the RGB LED pin fails to accquire a TCPWM resource,
-             * deallocate the TCPWM resources that were assigned succesfully
-             */
-            if (pwm_red_obj.base != NULL)
+
+            /* If the Blue or Green LED could not be initialized free the Red LED */
+            if (result != CY_RSLT_SUCCESS)
             {
                 cyhal_pwm_free(&pwm_red_obj);
             }
+        }
 
-            if (pwm_green_obj.base != NULL)
-            {
-                cyhal_pwm_free(&pwm_green_obj);
-            }
-
-            if (pwm_blue_obj.base != NULL)
-            {
-                cyhal_pwm_free(&pwm_blue_obj);
-            }
-
+        if (result != CY_RSLT_SUCCESS)
+        {
             /* Failed to allocated TCPWM resource for RGB LED control */
             result = CY_RSLT_RGB_LED_PWM_FAIL;
         }
@@ -200,14 +189,14 @@ cy_rslt_t cy_rgb_led_init(cyhal_gpio_t pin_red, cyhal_gpio_t pin_green, cyhal_gp
     return result;
 }
 
-/* Deintializes the TCPWM instances used for RGB LED control. */
+/* Deinitialize the TCPWM instances used for RGB LED control. */
 void cy_rgb_led_deinit(void)
 {
-    /* Deintialize and free all the TCPWM instances used for RGB LED control */
+    /* Deinitialize and free all the TCPWM instances used for RGB LED control */
     cyhal_pwm_free(&pwm_red_obj);
     cyhal_pwm_free(&pwm_green_obj);
     cyhal_pwm_free(&pwm_blue_obj);
-    
+
     /* De-register the low power handler */
     Cy_SysPm_UnregisterCallback(&lp_config);
 }
@@ -242,7 +231,7 @@ void cy_rgb_led_off(void)
  * This function sets the RGB LED color.
  * The brightness of each LED is varied by changing the ON duty cycle of the PWM
  * output. Using different combination of brightness for each of the RGB component,
- * different colors can be generated. 
+ * different colors can be generated.
  */
 void cy_rgb_led_set_color (uint32_t color)
 {
@@ -258,7 +247,7 @@ void cy_rgb_led_set_color (uint32_t color)
         pwm_green_pulse_width = CY_RGB_LED_PWM_PERIOD_US - pwm_green_pulse_width;
         pwm_blue_pulse_width = CY_RGB_LED_PWM_PERIOD_US - pwm_blue_pulse_width;
     }
-    
+
     cyhal_pwm_set_period(&pwm_red_obj, CY_RGB_LED_PWM_PERIOD_US, pwm_red_pulse_width);
     cyhal_pwm_set_period(&pwm_green_obj, CY_RGB_LED_PWM_PERIOD_US, pwm_green_pulse_width);
     cyhal_pwm_set_period(&pwm_blue_obj, CY_RGB_LED_PWM_PERIOD_US, pwm_blue_pulse_width);

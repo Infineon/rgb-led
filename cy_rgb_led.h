@@ -6,7 +6,7 @@
 *
 ********************************************************************************
 * \copyright
-* Copyright 2018-2019 Cypress Semiconductor Corporation
+* Copyright 2018-2020 Cypress Semiconductor Corporation
 * SPDX-License-Identifier: Apache-2.0
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -40,7 +40,7 @@ extern "C" {
 /** Error code for RGB LED operation: Peripheral clock assignment failure */
 #define CY_RSLT_RGB_LED_CLK_FAIL                (CY_RSLT_CREATE(CY_RSLT_TYPE_ERROR, CY_RSLT_MODULE_BOARD_LIB_RGB_LED , 0))
 
-/** Error code for RGB LED operation: TCPWM resource allocation failure */
+/** Error code for RGB LED operation: PWM resource allocation failure */
 #define CY_RSLT_RGB_LED_PWM_FAIL                (CY_RSLT_CREATE(CY_RSLT_TYPE_ERROR, CY_RSLT_MODULE_BOARD_LIB_RGB_LED , 1))
 
 /** Error code for RGB LED operation: Low power callback function registration failure */
@@ -50,20 +50,20 @@ extern "C" {
 #define CY_RSLT_RGB_LED_LP_CB_DEREG_FAIL        (CY_RSLT_CREATE(CY_RSLT_TYPE_ERROR, CY_RSLT_MODULE_BOARD_LIB_RGB_LED , 3))
 
 /** Bit position for Red LED */
-#define CY_RGB_LED_RED_POS            (0u)
+#define CY_RGB_LED_RED_POS            (16u)
 
 /** Bit position for Green LED */
 #define CY_RGB_LED_GREEN_POS          (8u)
 
 /** Bit position for Blue LED */
-#define CY_RGB_LED_BLUE_POS           (16u)
+#define CY_RGB_LED_BLUE_POS           (0u)
 
 /** 32-bit encoding for Red Color \n */
 /** \b Note:
-    LED Color is encoded as 0x00BBGGRR
-    where BB - byte field for Blue color
+    LED Color is encoded as 0x00RRGGBB
+    where RR - byte field for Red color
           GG - byte field for Green color
-          RR - byte field for Red color
+          BB - byte field for Blue color
 
     Each byte represents 256 (0x00 to 0xFF) different brightness level
     for each LED color (Red, Green, Blue). Colors can be generated varying
@@ -71,24 +71,26 @@ extern "C" {
 
     For example:
     0x00FFFFFF (RR = 0xFF; GG = 0xFF BB = 0xFF) produces white color. \n
-    0x0000FFFF (RR = 0xFF; GG = 0xFF BB = 0x00) produces yellow color. \n
+    0x00FFFF00 (RR = 0xFF; GG = 0xFF BB = 0x00) produces yellow color. \n
 
  */
-#define CY_RGB_LED_COLOR_RED              0x000000FF
+#define CY_RGB_LED_COLOR_RED              (0xFF << CY_RGB_LED_RED_POS)
 /** 32-bit encoding for Green Color. Refer to \ref CY_RGB_LED_COLOR_RED for color encoding scheme */
-#define CY_RGB_LED_COLOR_GREEN            0x0000FF00
+#define CY_RGB_LED_COLOR_GREEN            (0xFF << CY_RGB_LED_GREEN_POS)
 /** 32-bit encoding for Blue Color. Refer to \ref CY_RGB_LED_COLOR_RED for color encoding scheme */
-#define CY_RGB_LED_COLOR_BLUE             0x00FF0000
+#define CY_RGB_LED_COLOR_BLUE             (0xFF << CY_RGB_LED_BLUE_POS)
 /** 32-bit encoding for White Color. Refer to \ref CY_RGB_LED_COLOR_RED for color encoding scheme */
-#define CY_RGB_LED_COLOR_WHITE            0x00FFFFFF
+#define CY_RGB_LED_COLOR_WHITE            (CY_RGB_LED_COLOR_RED | CY_RGB_LED_COLOR_GREEN | CY_RGB_LED_COLOR_BLUE)
 /** 32-bit encoding for Yellow Color. Refer to \ref CY_RGB_LED_COLOR_RED for color encoding scheme */
-#define CY_RGB_LED_COLOR_YELLOW           0x0000FFFF
-/** 32-bit encoding for Purple Color. Refer to \ref CY_RGB_LED_COLOR_RED for color encoding scheme */
-#define CY_RGB_LED_COLOR_PURPLE           0x00FF00FF
+#define CY_RGB_LED_COLOR_YELLOW           (CY_RGB_LED_COLOR_RED | CY_RGB_LED_COLOR_GREEN)
+/** 32-bit encoding for Magenta Color. Refer to \ref CY_RGB_LED_COLOR_RED for color encoding scheme */
+#define CY_RGB_LED_COLOR_MAGENTA          (CY_RGB_LED_COLOR_RED | CY_RGB_LED_COLOR_BLUE)
+/** Deprecated. Use CY_RGB_LED_COLOR_MAGENTA instead */
+#define CY_RGB_LED_COLOR_PURPLE           (CY_RGB_LED_COLOR_MAGENTA)
 /** 32-bit encoding for Cyan Color. Refer to \ref CY_RGB_LED_COLOR_RED for color encoding scheme */
-#define CY_RGB_LED_COLOR_CYAN             0x00FFFF00
+#define CY_RGB_LED_COLOR_CYAN             (CY_RGB_LED_COLOR_GREEN | CY_RGB_LED_COLOR_BLUE)
 /** No Color. Refer to \ref CY_RGB_LED_COLOR_RED for color encoding scheme*/
-#define CY_RGB_LED_COLOR_OFF              0x00000000
+#define CY_RGB_LED_COLOR_OFF              (0x00000000)
 /** Maximum LED Brightness */
 #define CY_RGB_LED_MAX_BRIGHTNESS         (100u)
 /** RGB LED active HIGH logic */
@@ -102,7 +104,7 @@ extern "C" {
  * \param pin_green GPIO for Green component.
  * \param pin_blue GPIO for Blue component.
  * \param led_active_logic Active logic (low or high) for the RGB LED, all three
- *        LEDs must be connected in same active logic. 
+ *        LEDs must be connected in same active logic.
  * \returns CY_RSLT_SUCCESS if the initialization was successful, an error code
  *          otherwise.
  */

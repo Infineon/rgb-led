@@ -91,7 +91,7 @@ $(document).ready(function(){initNavTree('index.html','');});
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><h3>Overview</h3>
-<p>Provides functions for controlling an RGB LED. This library implements color mixing and brightness control using the TCPWM blocks.</p>
+<p>Provides functions for controlling an RGB LED. This library implements color mixing and brightness control using the PWM blocks.</p>
 <ul>
 <li>The <a class="el" href="group__group__board__libs.html#ga75990776115641712b8535fc1002d2ba" title="Initializes RGB LED on the board. ">cy_rgb_led_init()</a> function accepts the active logic (high or low) of the RGB LED as a parameter. All three (red, green, and blue) LEDs must be connected in same configuration, either active high or active low.</li>
 <li>The <a class="el" href="group__group__board__libs.html#ga75990776115641712b8535fc1002d2ba" title="Initializes RGB LED on the board. ">cy_rgb_led_init()</a> function registers a low power handler that prevents the device from entering low power (deep-sleep) mode when the RGB LED is ON. You need to call <a class="el" href="group__group__board__libs.html#gaedaf9c7d163447146ef1ba6fa93d20e4" title="Turns off the RGB LED on the board. ">cy_rgb_led_off()</a> to turn the LED OFF before entering low power mode.</li>
@@ -99,16 +99,20 @@ $(document).ready(function(){initNavTree('index.html','');});
 <h3>Quick Start</h3>
 <ol type="1">
 <li>Add #include "cy_rgb_led.h"</li>
-<li>Add the following code to the main() function. This example initializes the RGB LED and produces a yellow color with maximum brightness. <br />
- CYBSP_LED_RGB_RED, CYBSP_LED_RGB_GREEN, and CYBSP_LED_RGB_BLUE are defined in the BSP.</li>
+<li><p class="startli">Add the following code to the main() function. This example initializes the RGB LED and produces a yellow color with maximum brightness.</p>
+<p class="startli">CYBSP_LED_RGB_RED, CYBSP_LED_RGB_GREEN, and CYBSP_LED_RGB_BLUE are defined in the BSP.</p>
+</li>
 </ol>
-<div class="fragment"><div class="line">cy_rslt_t result;</div><div class="line"></div><div class="line">result = cybsp_init();</div><div class="line"></div><div class="line"><span class="keywordflow">if</span>(result == CY_RSLT_SUCCESS) {</div><div class="line">    result = <a class="code" href="group__group__board__libs.html#ga75990776115641712b8535fc1002d2ba">cy_rgb_led_init</a>(CYBSP_LED_RGB_RED, CYBSP_LED_RGB_GREEN, CYBSP_LED_RGB_BLUE, <a class="code" href="group__group__board__libs.html#gaaae1e2ea0be32d9768af86c36c38844d">CY_RGB_LED_ACTIVE_LOW</a>);</div><div class="line">    <a class="code" href="group__group__board__libs.html#gaf355e51e75c75ab794de431115fb964c">cy_rgb_led_on</a>(<a class="code" href="group__group__board__libs.html#ga2a72f579397009fe7b5278cf3b987833">CY_RGB_LED_COLOR_YELLOW</a>, <a class="code" href="group__group__board__libs.html#ga0a950307707e911bb5aef6712dd4aceb">CY_RGB_LED_MAX_BRIGHTNESS</a>);    </div><div class="line">}</div><div class="line"></div><div class="line"><span class="keywordflow">for</span>(;;) {</div><div class="line">}</div></div><!-- fragment --><h3>More information</h3>
+<div class="fragment"><div class="line">cy_rslt_t result;</div><div class="line"></div><div class="line">result = cybsp_init();</div><div class="line"></div><div class="line"><span class="keywordflow">if</span>(result == CY_RSLT_SUCCESS) {</div><div class="line">    result = <a class="code" href="group__group__board__libs.html#ga75990776115641712b8535fc1002d2ba">cy_rgb_led_init</a>(CYBSP_LED_RGB_RED, CYBSP_LED_RGB_GREEN, CYBSP_LED_RGB_BLUE, <a class="code" href="group__group__board__libs.html#gaaae1e2ea0be32d9768af86c36c38844d">CY_RGB_LED_ACTIVE_LOW</a>);</div><div class="line">    <a class="code" href="group__group__board__libs.html#gaf355e51e75c75ab794de431115fb964c">cy_rgb_led_on</a>(<a class="code" href="group__group__board__libs.html#ga2a72f579397009fe7b5278cf3b987833">CY_RGB_LED_COLOR_YELLOW</a>, <a class="code" href="group__group__board__libs.html#ga0a950307707e911bb5aef6712dd4aceb">CY_RGB_LED_MAX_BRIGHTNESS</a>);</div><div class="line">}</div><div class="line"></div><div class="line"><span class="keywordflow">for</span>(;;) {</div><div class="line">}</div></div><!-- fragment --><h3>More information</h3>
 <ul>
+<li><a href="https://cypresssemiconductorco.github.io/rgb-led/html/index.html">API Reference Guide</a></li>
+<li><a href="http://www.cypress.com">Cypress Semiconductor</a></li>
+<li><a href="https://github.com/cypresssemiconductorco">Cypress Semiconductor GitHub</a></li>
 <li><a href="https://www.cypress.com/products/modustoolbox-software-environment">ModusToolbox</a></li>
 <li><a href="https://github.com/cypresssemiconductorco/Code-Examples-for-ModusToolbox-Software">PSoC 6 Code Examples using ModusToolbox IDE</a></li>
 <li><a href="https://github.com/cypresssemiconductorco/psoc6-middleware">PSoC 6 Middleware</a></li>
 <li><a href="https://community.cypress.com/docs/DOC-14644">PSoC 6 Resources - KBA223067</a> <hr/>
- © Cypress Semiconductor Corporation, 2019. </li>
+ © Cypress Semiconductor Corporation, 2019-2020. </li>
 </ul>
 </div></div><!-- contents -->
 </div><!-- doc-content -->
