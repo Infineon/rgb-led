@@ -31,7 +31,7 @@ Provides functions for controlling an RGB LED. This library implements color mix
 ### More information
 
 * [API Reference Guide](https://cypresssemiconductorco.github.io/rgb-led/html/index.html)
-* [Cypress Semiconductor](http://www.cypress.com)
+* [Cypress Semiconductor, an Infineon Technologies Company](http://www.cypress.com)
 * [Cypress Semiconductor GitHub](https://github.com/cypresssemiconductorco)
 * [ModusToolbox](https://www.cypress.com/products/modustoolbox-software-environment)
 * [PSoC 6 Code Examples using ModusToolbox IDE](https://github.com/cypresssemiconductorco/Code-Examples-for-ModusToolbox-Software)

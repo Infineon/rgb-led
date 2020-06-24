@@ -7,6 +7,8 @@ Provides functions for controlling an RGB LED. This library implements color mix
 * Color mixing and brightness control
 
 ### What Changed?
+#### v1.1.1
+* Minor update for documentation & branding
 #### v1.1.0
 * Update color format form 0x00BBGGRR to 0x00RRGGBB
 * Fixed unnecessary reliance on internal HAL PWM structure members
@@ -26,7 +28,7 @@ This version of the RGB LED library was validated for compatibility with the fol
 ### More information
 
 * [API Reference Guide](https://cypresssemiconductorco.github.io/rgb-led/html/index.html)
-* [Cypress Semiconductor](http://www.cypress.com)
+* [Cypress Semiconductor, an Infineon Technologies Company](http://www.cypress.com)
 * [Cypress Semiconductor GitHub](https://github.com/cypresssemiconductorco)
 * [ModusToolbox](https://www.cypress.com/products/modustoolbox-software-environment)
 * [PSoC 6 Code Examples using ModusToolbox IDE](https://github.com/cypresssemiconductorco/Code-Examples-for-ModusToolbox-Software)
