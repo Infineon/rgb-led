@@ -7,6 +7,8 @@ Provides functions for controlling an RGB LED. This library implements color mix
 * Color mixing and brightness control
 
 ### What Changed?
+#### v1.2.0
+* Migrate all internal function calls to HAL APIs
 #### v1.1.1
 * Minor update for documentation & branding
 #### v1.1.0
@@ -20,10 +22,12 @@ This version of the RGB LED library was validated for compatibility with the fol
 
 | Software and Tools                        | Version |
 | :---                                      | :----:  |
-| ModusToolbox Software Environment         | 2.0     |
-| GCC Compiler                              | 7.4     |
-| IAR Compiler                              | 8.32    |
+| ModusToolbox Software Environment         | 2.2     |
+| GCC Compiler                              | 9.3     |
+| IAR Compiler                              | 8.4     |
 | ARM Compiler 6                            | 6.11    |
+
+Minimum required ModusToolbox Software Environment: v2.0
 
 ### More information
 
@@ -36,4 +40,4 @@ This version of the RGB LED library was validated for compatibility with the fol
 * [PSoC 6 Resources - KBA223067](https://community.cypress.com/docs/DOC-14644)
 
 ---
-© Cypress Semiconductor Corporation, 2019-2020.
+© Cypress Semiconductor Corporation, 2019-2021.
