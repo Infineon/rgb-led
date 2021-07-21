@@ -7,6 +7,8 @@ Provides functions for controlling an RGB LED. This library implements color mix
 * Color mixing and brightness control
 
 ### What Changed?
+#### v1.2.1
+* Fixed issue with potentially uninitialized variables
 #### v1.2.0
 * Migrate all internal function calls to HAL APIs
 #### v1.1.1
@@ -22,8 +24,8 @@ This version of the RGB LED library was validated for compatibility with the fol
 
 | Software and Tools                        | Version |
 | :---                                      | :----:  |
-| ModusToolbox Software Environment         | 2.2     |
-| GCC Compiler                              | 9.3     |
+| ModusToolbox Software Environment         | 2.2.1   |
+| GCC Compiler                              | 9.3.1   |
 | IAR Compiler                              | 8.4     |
 | ARM Compiler 6                            | 6.11    |
 

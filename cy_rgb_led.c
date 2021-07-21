@@ -130,7 +130,7 @@ cy_rslt_t cy_rgb_led_init(cyhal_gpio_t pin_red, cyhal_gpio_t pin_green, cyhal_gp
                           bool led_active_logic)
 {
     cy_rslt_t             result = CY_RSLT_SUCCESS;
-    bool green_success, blue_success, red_success, clock_success = false;
+    bool green_success = false, blue_success = false, red_success = false, clock_success = false;
 
     rgb_led_active_logic = led_active_logic;
     // Allocate and assign the clock for TCPWMs for RGB LED control
